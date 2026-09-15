@@ -24,7 +24,6 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenQuote,
 }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems: NavItemConfig[] = [
     {
@@ -64,23 +63,10 @@ export const Header: React.FC<HeaderProps> = ({
     },
   ];
 
-  // Prevent background scroll when mobile drawer is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isMobileMenuOpen]);
-
   // Handle Escape key to close menus
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setIsMobileMenuOpen(false);
         setShowProfileMenu(false);
       }
     };
@@ -89,7 +75,6 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   const handleNavClick = (tab: ScreenTab) => {
-    setIsMobileMenuOpen(false);
     if (tab === 'instant-estimate') {
       onOpenQuote();
     } else {
@@ -187,139 +172,9 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="material-symbols-outlined text-[18px] sm:text-[19px]">person</span>
             </button>
 
-            {/* Responsive Phone Navbar Button (reveals Services, About Us and the rest) */}
-            <button
-              type="button"
-              id="headerPhoneNavBtn"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label={isMobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
-              aria-expanded={isMobileMenuOpen}
-              className="flex md:hidden items-center gap-1 px-2.5 py-1 rounded-lg bg-[var(--color-surface-low)] hover:bg-[var(--color-surface-container)] text-[var(--color-on-surface)] border border-[var(--color-border)] active:scale-95 transition-all cursor-pointer min-h-[32px] shrink-0"
-            >
-              <span className="material-symbols-outlined text-[18px]">
-                {isMobileMenuOpen ? 'close' : 'menu'}
-              </span>
-              <span className="text-[11.5px] font-bold">Menu</span>
-              <span
-                className="material-symbols-outlined text-[14px] transition-transform duration-200"
-                style={{ transform: isMobileMenuOpen ? 'rotate(180deg)' : 'none' }}
-              >
-                expand_more
-              </span>
-            </button>
           </div>
         </div>
-
-        {/* Phone Layout Only: Responsive Revealed Navbar Panel */}
-        {isMobileMenuOpen && (
-          <div
-            id="phoneRevealedNav"
-            className="md:hidden border-t border-[var(--color-border)] bg-[var(--color-surface-lowest)]/98 backdrop-blur-2xl shadow-2xl overflow-y-auto max-h-[calc(100vh-3.5rem)] animate-in slide-in-from-top-2 duration-200"
-          >
-            <div className="p-3 flex flex-col gap-1.5 max-w-lg mx-auto">
-              <div className="flex items-center justify-between px-1 pb-0.5">
-                <span className="text-[10.5px] font-extrabold uppercase tracking-wider text-[var(--color-on-surface-variant)]">
-                  Navigation &amp; Services
-                </span>
-                <span className="text-[10px] text-[#163620] dark:text-[#85d697] font-semibold flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Austin, TX Crew
-                </span>
-              </div>
-
-              <div className="flex flex-col gap-1">
-                {navItems.map((item) => {
-                  const isActive = currentTab === item.id;
-                  const isQuote = item.id === 'instant-estimate';
-                  return (
-                    <button
-                      key={`phoneRevealed-${item.id}`}
-                      id={`phoneRevealedBtn-${item.id}`}
-                      type="button"
-                      onClick={() => handleNavClick(item.id)}
-                      className={`w-full text-left px-2.5 py-1.5 rounded-lg transition-all duration-150 flex items-center justify-between gap-2.5 border cursor-pointer ${
-                        isActive
-                          ? isQuote
-                            ? 'bg-[#d9822b]/15 border-[#d9822b] shadow-xs'
-                            : 'bg-[#163620]/10 dark:bg-[#85d697]/15 border-[#163620] dark:border-[#85d697] shadow-xs'
-                          : 'bg-[var(--color-surface-low)] hover:bg-[var(--color-surface-container)] border-[var(--color-border)]/60'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div
-                          className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 ${
-                            isActive
-                              ? isQuote
-                                ? 'bg-[#d9822b] text-white'
-                                : 'bg-[#163620] text-white dark:bg-[#85d697] dark:text-[#00200d]'
-                              : 'bg-[var(--color-surface-lowest)] text-[var(--color-on-surface)] border border-[var(--color-border)]/40 shadow-2xs'
-                          }`}
-                        >
-                          <span
-                            className="material-symbols-outlined text-[17px]"
-                            style={isActive && item.icon === 'grade' ? { fontVariationSettings: "'FILL' 1" } : undefined}
-                          >
-                            {item.icon}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2 min-w-0">
-                          <span
-                            className={`text-[12.5px] font-bold truncate ${
-                              isActive
-                                ? isQuote
-                                  ? 'text-[#d9822b]'
-                                  : 'text-[#163620] dark:text-[#85d697]'
-                                : 'text-[var(--color-on-surface)]'
-                            }`}
-                          >
-                            {item.label}
-                          </span>
-                          {item.tag && (
-                            <span
-                              className={`text-[9.5px] font-bold px-1.5 py-0.5 rounded-md whitespace-nowrap ${
-                                isQuote
-                                  ? 'bg-[#d9822b]/20 text-[#d9822b]'
-                                  : 'bg-[#163620]/10 dark:bg-[#85d697]/20 text-[#163620] dark:text-[#85d697]'
-                              }`}
-                            >
-                              {item.tag}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      <span className="material-symbols-outlined text-[16px] text-[var(--color-on-surface-variant)] shrink-0">
-                        chevron_right
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Quick Direct Call & Dispatch inside revealed navbar */}
-              <div className="pt-1.5 border-t border-[var(--color-border)]/60 flex items-center gap-2 mt-0.5">
-                <a
-                  href="tel:5127913398"
-                  className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-[#163620] text-white text-[11.5px] font-bold shadow-xs active:scale-98 transition-all"
-                >
-                  <span className="material-symbols-outlined text-[15px] text-[#d9822b]">call</span>
-                  <span>Call Javier Directly: (512) 791-3398</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
       </header>
-
-      {/* Phone Nav Backdrop for Outside Tap Dismissal */}
-      {isMobileMenuOpen && (
-        <div
-          id="phoneNavBackdrop"
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-2xs md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-          aria-hidden="true"
-        />
-      )}
 
       {/* Quick Profile / Austin Dispatch Modal Dropdown */}
       {showProfileMenu && (

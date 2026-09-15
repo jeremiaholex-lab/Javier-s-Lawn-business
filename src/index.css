@@ -369,21 +369,6 @@
     white-space: nowrap !important;
   }
 
-  /* Reduced size for phone navbar button so it fits effortlessly */
-  #headerPhoneNavBtn {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.2rem !important;
-    padding: 0.2rem 0.45rem !important;
-    font-size: 11px !important;
-    min-height: 30px !important;
-    border-radius: 0.5rem !important;
-  }
-
-  #headerPhoneNavBtn .material-symbols-outlined {
-    font-size: 16px !important;
-  }
-
   /* Reduced size for phone call button */
   #headerCallBtn {
     font-size: 11px !important;
@@ -410,30 +395,6 @@
   main {
     padding-top: 3.35rem !important;
     padding-bottom: 3.85rem !important;
-  }
-
-  /* Reduced size for revealed phone navbar panel so all content is easily seen without scrolling */
-  #phoneRevealedNav {
-    display: block !important;
-  }
-
-  #phoneRevealedNav > div {
-    padding: 0.5rem 0.625rem !important;
-    gap: 0.25rem !important;
-  }
-
-  #phoneRevealedNav button {
-    padding: 0.35rem 0.5rem !important;
-    border-radius: 0.5rem !important;
-  }
-
-  #phoneRevealedNav button .w-7 {
-    width: 1.625rem !important;
-    height: 1.625rem !important;
-  }
-
-  #phoneRevealedNav button .material-symbols-outlined {
-    font-size: 16px !important;
   }
 
   /* Reduced size for bottom navbar (from 64px to 48px) so tabs fit with plenty of room */
