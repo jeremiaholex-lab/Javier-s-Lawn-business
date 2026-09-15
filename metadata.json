@@ -1,0 +1,7 @@
+{
+  "name": "Javier's Landscaping & Lawn Care",
+  "description": "Austin's premier lawn care, landscaping craftsmanship, and turf management mobile and web application.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
